@@ -4,6 +4,7 @@ import requests
 import time
 
 def find_jobs(page_num):
+    list_output= []
     for page in range(1,page_num+1):
         url = 'https://www.soarr.com/for-sale/trucks/search/results?page='+str(page)
         html_text = requests.get(url).text
@@ -17,18 +18,19 @@ def find_jobs(page_num):
             for i in range(len(make_and_year)):
                 if i+1 < len(make_and_year):
                     make += make_and_year[i+1]+" "
-
             #Year            
             year = make_and_year[0]
             #Category
             category = job.find('span', class_ = 'type-name').text
             #Odometer
             odometer = job.find('div', class_ = 'item odom').text
+            odometer = odometer.split()[0]
+            
             #Price
             price = NULL
             if job.find('div', class_='item price') is not None:
                 price = job.find('div', class_='item price').text
-            
+                price = price[1:]
             #Location
             location = job.find('span', class_ = 'dealer-loc').text.split(', ')
             city = location[0]
@@ -36,17 +38,23 @@ def find_jobs(page_num):
             #link
             sub_link = job.find('a', {'class': 'spec-link'})['href']
             link = 'https://www.soarr.com'+sub_link
-            print(make,year,category,odometer, price, city, state, link)
-        print('#'*50)
-        print('THE END OF PAGE '+ str(page))
+            #imageLink
+            #To be included
+            tmp = [make,year,category,odometer, city, state, price, link]
+            list_output.append(tmp)
+    return list_output   
 
-"""
-if __name__ == '__main__':
-    while True:
-        find_jobs()
-        time_wait = 0.2
-        print(f'Waiting {time_wait} minutes...')
-        time.sleep(time_wait*60)
+#Storing file
+import csv
 
-"""
-find_jobs(3)
+header = ['make','year','category','odometer', 'city', 'state', 'price', 'link']
+data = find_jobs(2)
+
+with open('truck_dataset.csv', 'w', encoding='UTF8', newline='') as f:
+    writer = csv.writer(f)
+
+    # write the header
+    writer.writerow(header)
+
+    # write multiple rows
+    writer.writerows(data)
