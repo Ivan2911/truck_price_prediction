@@ -48,7 +48,7 @@ def find_jobs(page_num):
 import csv
 
 header = ['make','year','category','odometer', 'city', 'state', 'price', 'link']
-data = find_jobs(2)
+data = find_jobs(100)
 
 with open('truck_dataset.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
