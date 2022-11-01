@@ -44,7 +44,7 @@ def find_jobs(page_num):
             list_output.append(tmp)
     return list_output   
 
-#Storing file
+#Storing file --
 import csv
 
 header = ['make','year','category','odometer', 'city', 'state', 'price', 'link']
