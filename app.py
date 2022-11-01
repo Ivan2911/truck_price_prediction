@@ -1,3 +1,4 @@
+from flask import Flask
 from flask import Flask, render_template, request, redirect, session
 
 app = Flask(__name__)
@@ -12,4 +13,5 @@ def output_calc():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug = True)
+    
