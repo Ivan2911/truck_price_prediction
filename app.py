@@ -1,4 +1,3 @@
-from flask import Flask
 from flask import Flask, render_template, request, redirect, session
 
 app = Flask(__name__)
@@ -12,6 +11,6 @@ def output_calc():
     return "Truck Valuation and Comparison Report"
 
 
-if __name__ == "__main__":
-    app.run(debug = True)
+#if __name__ == "__main__":
+    #app.run(debug = True)
     
